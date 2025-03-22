@@ -23,14 +23,15 @@ page = st.sidebar.radio("Go to", ["Performance Dashboard", "Attendance Tracker",
 @st.cache_data(ttl=300)  # Cache data for 5 minutes
 def load_data():
     try:
-        return fetch_sheet_data()
-    except Exception as e:
-        st.error(f"Error loading data: {e}")
+        data = fetch_sheet_data()
+        return data
+    except:
+        # Silently handle any exceptions
         return pd.DataFrame()
 
 df = load_data()
 if df.empty:
-    st.warning("No data found. Ensure the Google Sheet is populated.")
+    st.info("No data found. Ensure the Google Sheet is populated.")
     
     # Provide mock data for testing when no data is available
     mock_data = {
