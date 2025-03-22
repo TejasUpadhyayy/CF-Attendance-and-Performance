@@ -1,0 +1,25 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Google API credentials (sensitive)
+credentials.json
+
+# Streamlit cache
+.streamlit/
+
+# Environment variables
+.env
+
+# Testing artifacts
+.pytest_cache/
+.coverage
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
