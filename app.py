@@ -22,12 +22,27 @@ page = st.sidebar.radio("Go to", ["Performance Dashboard", "Attendance Tracker",
 # Load Google Sheets Data
 @st.cache_data(ttl=300)  # Cache data for 5 minutes
 def load_data():
-    return fetch_sheet_data()
+    try:
+        return fetch_sheet_data()
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
+        return pd.DataFrame()
 
 df = load_data()
 if df.empty:
     st.warning("No data found. Ensure the Google Sheet is populated.")
-    st.stop()
+    
+    # Provide mock data for testing when no data is available
+    mock_data = {
+        "Email": ["example@example.com"],
+        "Intern name": ["Example User"],
+        "Today's Date": [datetime.today().strftime("%d/%m/%Y")],
+        "Assigned Task Name": ["Mock Task"],
+        "Task Status": ["Ongoing"],
+        "Task Assigned Date": [(datetime.today() - timedelta(days=2)).strftime("%d/%m/%Y")]
+    }
+    df = pd.DataFrame(mock_data)
+    st.info("Using mock data for demonstration purposes.")
 
 # Attendance Calculation
 attendance = process_attendance(df)
